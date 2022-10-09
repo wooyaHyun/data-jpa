@@ -337,7 +337,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    void lock(){
+    void lockTest(){
         //given
         Member member1 = new Member("member1", 10);
         memberRepository.save(member1);
@@ -346,6 +346,7 @@ class MemberRepositoryTest {
 
         //when
         List<Member> result = memberRepository.findLockByUsername("member1");
+
 
     }
 
