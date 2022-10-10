@@ -26,7 +26,7 @@ import java.util.Optional;
  * 2022-10-05   SHW     최초 생성
  */
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
@@ -64,7 +64,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select m from Member m left join fetch m.team")
     List<Member> findMemberFetchJoin();
-
 
     @Override
     @EntityGraph(attributePaths = {"team"})
