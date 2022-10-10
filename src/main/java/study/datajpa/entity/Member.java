@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //JPA는 무조건 기본 생성자가 필요한데 private가 아닌 Protected로 선언해야 다른곳에서 사용이 가능하다.
 @ToString(of = {"id", "username", "age"})   //연관관계 필드는 toString을 사용 안하는 것이 좋다.
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue()
     @Column(name="member_id")
