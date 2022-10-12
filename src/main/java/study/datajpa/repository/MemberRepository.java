@@ -26,7 +26,7 @@ import java.util.Optional;
  * 2022-10-05   SHW     최초 생성
  */
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor<Member> {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
@@ -83,4 +83,19 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUsername(String username);
 
+    //클래스 방법: UsernameOnlyDto / 인터페이스 방법: UsernameOnly
+    //List <UsernameOnlyDto> findProjectionsByUsername(@Param("username") String username);
+
+    //동적 프로젝션
+    <T>List<T> findProjectionsByUsername(@Param("username") String username, Class<T> type);
+
+    @Query(value = "select * from member where username = ?", nativeQuery = true)
+    Member findByNativeQuery(String username);
+
+    //정적쿼리를 네이티브로 짤때 프로젝션을 썩어서 사용하기 좋다.
+    @Query(value = "select m.member_id as id, m.username, t.name as teamName" +
+            " from member m left join team t",
+            countQuery = "select count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
 }
